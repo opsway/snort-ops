@@ -7,9 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "snort"
+
+service "snort" do
+  action :enable
+end
+
 template "/etc/snort/snort.debian.conf" do
   source "snort.debian.conf.erb"
-end
-service "snort" do
-  action [ :enable, :restart ]
+  notifies :restart, resources(:service => "snort"), :immediate
 end
